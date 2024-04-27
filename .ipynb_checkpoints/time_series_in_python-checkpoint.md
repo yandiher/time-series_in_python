@@ -56,29 +56,13 @@ from statsmodels.tsa.stattools import adfuller
 from statsmodels.graphics.tsaplots import plot_acf
 
 series = # time series dataset
+stat, p = adfuller(series)
 
-def random_walk(himpunan):
-    adf = adfuller(himpunan)
+if p > 0.05:
+    print(f'we fail to reject null hyphotesis. the dataset is not stationary')
+else:
+    print(f'we reject null hypothesis. the dataset is stationary.')
 
-    if adf[1] > 0.05:
-        stationary = False
-        print("we fail to reject the null hypothesis.")
-        print("the dataset is not stationary.")
-        print(f"p-value: {adf[1]}")
-    else:
-        stationary = True
-        print("we reject the null hypothesis.")
-        print("the dataset is stationary")
-        print(f"p-value: {adf[1]}")
-
-    if stationary == False:
-        himpunan = np.diff(himpunan, n=1)
-        print('')
-        print('after transformation')
-        post_transformation = adfuller(himpunan)
-        print(f"p-value: {post_transformation[1]}")
-    
-    plot_acf(himpunan, lags=20)
+plot_acf(series, lags=20)
 ~~~
 
-> berenti di halaman 48
